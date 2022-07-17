@@ -1,0 +1,75 @@
+.signUp__container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+}
+
+.signUp__left-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.signUp__right-container {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.rc__google-signin-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  color: black;
+  box-shadow: 2ch 2ch 2ch rgba(0, 0, 0, 0.1);
+}
+
+.rc__google-signin-btn:hover {
+  box-shadow: 2ch 2ch 2ch rgba(0, 0, 0, 0.2);
+}
+
+.rc__google-signin-btn img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.rc__break {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #e6e6e6;
+}
+
+.rc__break-line {
+  width: 100%;
+  height: 2px;
+  background-color: #e6e6e6;
+  margin: 0 10px;
+}
+
+.rc__input {
+  display: flex;
+  flex-direction: column;
+}
+
+#rc__input-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
