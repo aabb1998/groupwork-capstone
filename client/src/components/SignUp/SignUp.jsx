@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
+import './SignUp.css';
+import { MdError } from 'react-icons/md';
 
 const SignUp = () => {
   const [data, setData] = useState({
@@ -47,53 +49,61 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <div>
-        <div>
-          <h1>Welcome Back</h1>
-          <Link to="/login">
-            <button type="button">Sing in</button>
+    <div className="signup">
+      <div className="signup-container">
+        <form id="signup-form" onSubmit={handleSubmit}>
+          <h1>Create Account</h1>
+          <input
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            onChange={handleChange}
+            value={data.firstName}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="lastName"
+            onChange={handleChange}
+            value={data.lastName}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            onChange={handleChange}
+            value={data.email}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+            value={data.password}
+            required
+          />
+          {error && (
+            <div className="signup-error">
+              <MdError
+                style={{
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginRight: '4px',
+                  display: error ? 'block' : 'none',
+                }}
+                color="red"
+              />
+              <span>{error}</span>
+            </div>
+          )}
+          <button type="submit">Sign Up</button>
+          <Link className="login-link" to="/login">
+            <span>Already have an account? Login</span>
           </Link>
-        </div>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <h1>Create Account</h1>
-            <input
-              type="text"
-              placeholder="First Name"
-              name="firstName"
-              onChange={handleChange}
-              value={data.firstName}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              name="lastName"
-              onChange={handleChange}
-              value={data.lastName}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              onChange={handleChange}
-              value={data.email}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-              value={data.password}
-              required
-            />
-            {error && <div>{error}</div>}
-            <button type="submit">Sing Up</button>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   );
