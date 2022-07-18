@@ -10,7 +10,7 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
@@ -19,29 +19,30 @@ const SignUp = () => {
 
   useEffect(() => {
     console.log(data);
-  }, [data]);
+    console.log(error);
+  }, [data, error]);
 
+  function getFormData(object) {
+    const formData = new FormData();
+    Object.keys(object).forEach((key) => formData.append(key, object[key]));
+    return formData;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
+    const newFormData = getFormData(data);
     try {
-      let res = await axios.post('http://localhost:3000/api/users', formData, {
-        headers: form_data.getHeaders(),
-      });
-
-      let response = res.data;
-      console.log(response);
+      let res = await axios.post('http://localhost:3000/api/users', data);
+      console.log('Account created');
+      navigate('/login');
     } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response);
-      }
+      // if (
+      //   error.response &&
+      //   error.response.status >= 400 &&
+      //   error.response.status <= 500
+      // ) {
+      //   setError(error.response);
+      // }
+      setError(error.response.data.message);
     }
   };
 
