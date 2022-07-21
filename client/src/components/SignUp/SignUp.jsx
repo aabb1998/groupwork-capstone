@@ -87,7 +87,7 @@ const SignUp = () => {
           />
           {error && (
             <div className="signup-error">
-              <MdError
+              {/* <MdError
                 style={{
                   alignItems: 'center',
                   textAlign: 'center',
@@ -95,7 +95,7 @@ const SignUp = () => {
                   display: error ? 'block' : 'none',
                 }}
                 color="red"
-              />
+              /> */}
               <span>{error}</span>
             </div>
           )}
