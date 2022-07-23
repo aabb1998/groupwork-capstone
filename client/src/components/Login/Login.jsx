@@ -9,6 +9,7 @@ const Login = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const [user, setUser] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +17,10 @@ const Login = () => {
       const response = await axios.post('http://localhost:3000/api/auth', data);
       console.log('Login successful');
       console.log(response);
+      setUser(response.data.user);
     } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
+      // console.log(error);
+      // setError(error.response.data.message);
     }
   };
   const handleChange = ({ currentTarget: input }) => {
@@ -26,8 +28,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    console.log(user);
+  }, [user]);
 
   return (
     <div className="login">

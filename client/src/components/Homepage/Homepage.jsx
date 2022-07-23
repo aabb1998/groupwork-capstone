@@ -11,6 +11,9 @@ const Homepage = () => {
         <Link to="Login">
           <button>Login</button>
         </Link>
+        <Link to="Dashboard">
+          <button>Dashboard</button>
+        </Link>
       </div>
     </div>
   );
