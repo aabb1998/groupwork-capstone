@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import { update, selectUser } from '../../redux/user';
+import { useSelector, useDispatch } from 'react-redux';
+import { store } from './../../redux/configureStore';
 
 const Login = () => {
   const [data, setData] = useState({
@@ -9,7 +12,17 @@ const Login = () => {
     password: '',
   });
   const [error, setError] = useState('');
-  const [user, setUser] = useState();
+  const [login, setLogin] = useState(false);
+  const [userData, setUserData] = useState();
+
+  // gets user from the store
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const getState = () => {
+    const state = store.getState();
+    console.log(state);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +30,8 @@ const Login = () => {
       const response = await axios.post('http://localhost:3000/api/auth', data);
       console.log('Login successful');
       console.log(response);
-      setUser(response.data.user);
+      setUserData(response.data.user);
+      setLogin(true);
     } catch (error) {
       // console.log(error);
       // setError(error.response.data.message);
@@ -28,7 +42,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    dispatch(update(userData) || {});
+  }, [userData]);
+
+  useEffect(() => {
+    getState();
   }, [user]);
 
   return (
