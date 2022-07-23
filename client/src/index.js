@@ -8,6 +8,7 @@ import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import { store } from './redux/configureStore';
 import { Provider } from 'react-redux';
+import Homepage from './components/Homepage/Homepage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/homepage" element={<Homepage store={store} />} />
         </Routes>
       </BrowserRouter>
     </Provider>

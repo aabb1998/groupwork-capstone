@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { update, selectUser } from '../../redux/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from './../../redux/configureStore';
@@ -14,6 +14,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [login, setLogin] = useState(false);
   const [userData, setUserData] = useState();
+
+  let navigate = useNavigate();
 
   // gets user from the store
   const user = useSelector(selectUser);
@@ -43,6 +45,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(update(userData) || {});
+    if (userData != undefined || userData != null) navigate('/homepage');
   }, [userData]);
 
   useEffect(() => {
