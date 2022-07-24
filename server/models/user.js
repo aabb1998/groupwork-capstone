@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  teams: { type: Array, required: false, default: [] },
+  profileUrl: { type: String, required: false, default: '' },
 });
 
 userSchema.methods.generateAuthToken = function () {
