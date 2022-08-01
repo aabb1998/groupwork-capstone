@@ -23,7 +23,6 @@ const Login = () => {
 
   const getState = () => {
     const state = store.getState();
-    console.log(state);
   };
 
   const handleSubmit = async (e) => {
@@ -45,7 +44,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(update(userData) || {});
-    if (userData != undefined || userData != null) navigate('/homepage');
+    if (userData != undefined || userData != null) navigate('/dashboard');
   }, [userData]);
 
   useEffect(() => {
