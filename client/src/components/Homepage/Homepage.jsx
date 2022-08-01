@@ -6,8 +6,7 @@ import Navbar from './../Navbar/Navbar';
 import MainSection from './MainSection';
 
 const Homepage = ({ store }) => {
-  const user = useSelector(selectUser);
-  console.log(user);
+  const { user } = useSelector(selectUser);
 
   return (
     <div>

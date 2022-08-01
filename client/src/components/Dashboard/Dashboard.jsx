@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from './../../redux/configureStore';
-import { selectUser } from './../../redux/user';
+import { update, selectUser } from '../../redux/user';
+
 import DashboardNavbar from './DashboardNavbar/DashboardNavbar';
 
 const Dashboard = () => {
@@ -13,7 +14,10 @@ const Dashboard = () => {
     members: [],
   });
 
-  const user = useSelector(selectUser);
+  const [newUserData, setNewUserData] = useState();
+
+  const { user } = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const handleChange = ({ currentTarget: input }) => {
     setTeamData({ ...teamData, [input.name]: input.value });
@@ -28,6 +32,21 @@ const Dashboard = () => {
       );
       console.log('Team created.');
       console.log(response);
+      updateUser();
+      setTeamData({ members: [...teamData.members.concat(user)] });
+      setTeamData({ userId: user._id });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateUser = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/findUser/${user.email}`
+      );
+      console.log(response);
+      dispatch(update(response.data));
     } catch (error) {
       console.log(error);
     }
@@ -41,12 +60,6 @@ const Dashboard = () => {
       members: [],
     });
   };
-
-  useEffect(() => {
-    console.log(user);
-    setTeamData({ members: [...teamData.members.concat(user)] });
-    console.log(user);
-  }, [user]);
 
   return (
     <div>

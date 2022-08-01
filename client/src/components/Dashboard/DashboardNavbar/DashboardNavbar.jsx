@@ -44,7 +44,7 @@ const DashboardNavbar = () => {
           alt="Profile url"
         />
         <div className="flex flex-col ml-3 mr-9">
-          <span>{user?.firstName}</span>
+          <span>{user?.data?.firstName}</span>
           <span>Student</span>
         </div>
         <button>Logout</button>

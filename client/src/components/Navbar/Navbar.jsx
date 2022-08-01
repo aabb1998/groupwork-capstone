@@ -6,10 +6,7 @@ import { selectUser } from './../../redux/user';
 import { useSelector } from 'react-redux';
 
 const Navbar = () => {
-  const user = useSelector(selectUser);
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  const { user } = useSelector(selectUser);
 
   return (
     <div className="flex flex-row justify-center text-center items-center px-5 py-10">
@@ -37,7 +34,7 @@ const Navbar = () => {
         ))}
       </nav>
       <div className="flex-1 items-center flex-row justify-between">
-        {user._id ? (
+        {!user._id ? (
           <Link to="/login">
             <button className="bg-darkBlue px-12 py-3 rounded-lg text-white text-sm font-semibold">
               Login
