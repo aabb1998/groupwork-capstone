@@ -13,12 +13,25 @@ const Dashboard = () => {
     dateCreated: new Date().toISOString(),
     projectName: '',
     members: [],
+    teamCode: '',
   });
-
   const [newUserData, setNewUserData] = useState();
 
   const { user } = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  const generateCode = () => {
+    var result = [];
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < 5; i++) {
+      result.push(
+        characters.charAt(Math.floor(Math.random() * charactersLength))
+      );
+    }
+    return result.join('');
+  };
 
   useEffect(() => {
     if (!teamData.members.find((lookup) => lookup.email === user.email)) {
@@ -32,18 +45,19 @@ const Dashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const code = generateCode();
+    teamData.teamCode = code;
     try {
       const response = await axios.post(
         'http://localhost:3000/api/addteam',
         teamData
       );
       console.log('Team created.');
-      console.log(teamData);
+      console.log(response);
       resetValues();
       // updateUser();
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
       resetValues();
     }
   };
@@ -66,6 +80,7 @@ const Dashboard = () => {
       dateCreated: new Date().toISOString(),
       projectName: '',
       members: [...teamData.members],
+      teamCode: '',
     });
   };
 
