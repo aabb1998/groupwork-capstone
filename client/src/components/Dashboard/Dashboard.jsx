@@ -5,6 +5,7 @@ import { store } from './../../redux/configureStore';
 import { update, selectUser } from '../../redux/user';
 
 import DashboardNavbar from './DashboardNavbar/DashboardNavbar';
+import JoinTeam from './JoinTeam/JoinTeam';
 
 const Dashboard = () => {
   const [teamData, setTeamData] = useState({
@@ -93,6 +94,7 @@ const Dashboard = () => {
           </form>
         </div>
       </div>
+      <JoinTeam />
     </div>
   );
 };
