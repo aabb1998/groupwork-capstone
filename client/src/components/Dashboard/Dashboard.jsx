@@ -10,7 +10,7 @@ import JoinTeam from './JoinTeam/JoinTeam';
 const Dashboard = () => {
   const [teamData, setTeamData] = useState({
     teamName: '',
-    dateCreated: new Date().toISOString(),
+    dateCreated: '',
     projectName: '',
     members: [],
   });
@@ -24,7 +24,12 @@ const Dashboard = () => {
     setTeamData({ ...teamData, [input.name]: input.value });
   };
 
+  const updateDate = () => {
+    setTeamData({ dateCreated: new Date().toISOString() });
+  };
+
   const handleSubmit = async (e) => {
+    updateDate();
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -34,8 +39,7 @@ const Dashboard = () => {
       console.log('Team created.');
       console.log(response);
       updateUser();
-      setTeamData({ members: [...teamData.members.concat(user)] });
-      setTeamData({ userId: user._id });
+      // setTeamData({ members: [...teamData.members.concat(user)] });
     } catch (error) {
       console.log(error);
     }
