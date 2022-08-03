@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const findUserRoutes = require('./routes/findUserRoutes');
 const addTeamRoute = require('./routes/team');
 const getUpdatedUser = require('./routes/getUpdatedUser');
+const joinTeam = require('./routes/JoinTeam');
 
 // database connection
 connection();
@@ -22,6 +23,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/findUser', findUserRoutes);
 app.use('/api/addTeam', addTeamRoute);
 app.use('/api/getupdatedUser', getUpdatedUser);
+app.use('/api/jointeam', joinTeam);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
