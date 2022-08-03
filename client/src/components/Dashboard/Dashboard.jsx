@@ -10,7 +10,7 @@ import JoinTeam from './JoinTeam/JoinTeam';
 const Dashboard = () => {
   const [teamData, setTeamData] = useState({
     teamName: '',
-    dateCreated: '',
+    dateCreated: new Date().toISOString(),
     projectName: '',
     members: [],
   });
@@ -20,49 +20,52 @@ const Dashboard = () => {
   const { user } = useSelector(selectUser);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!teamData.members.find((lookup) => lookup.email === user.email)) {
+      setTeamData({ members: [...teamData.members.concat(user)] });
+    }
+  }, [user]);
+
   const handleChange = ({ currentTarget: input }) => {
     setTeamData({ ...teamData, [input.name]: input.value });
   };
 
-  const updateDate = () => {
-    setTeamData({ dateCreated: new Date().toISOString() });
-  };
-
   const handleSubmit = async (e) => {
-    updateDate();
     e.preventDefault();
+
     try {
       const response = await axios.post(
         'http://localhost:3000/api/addteam',
         teamData
       );
       console.log('Team created.');
-      console.log(response);
-      updateUser();
-      // setTeamData({ members: [...teamData.members.concat(user)] });
+      console.log(teamData);
+      resetValues();
+      // updateUser();
     } catch (error) {
       console.log(error);
+      resetValues();
     }
   };
 
-  const updateUser = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/findUser/${user.email}`
-      );
-      console.log(response);
-      dispatch(update(response.data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const updateUser = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:3000/api/findUser/${user.email}`
+  //     );
+  //     console.log(response);
+  //     dispatch(update(response.data));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const resetValues = () => {
     setTeamData({
       teamName: '',
       dateCreated: new Date().toISOString(),
       projectName: '',
-      members: [],
+      members: [...teamData.members],
     });
   };
 
@@ -80,7 +83,7 @@ const Dashboard = () => {
               name="teamName"
               required
               placeholder="Team Name"
-              value={teamData.teamName || undefined}
+              value={teamData.teamName}
               type="text"
             />
             <span>Project name:</span>
@@ -89,7 +92,7 @@ const Dashboard = () => {
               name="projectName"
               required
               placeholder="Project Name"
-              value={teamData.projectName || undefined}
+              value={teamData.projectName}
               type="text"
             />
             <button onSubmit={handleSubmit} type="submit">
