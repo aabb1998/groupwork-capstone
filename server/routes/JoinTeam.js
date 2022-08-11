@@ -11,7 +11,6 @@ router.post('/:teamCode', async (req, res) => {
 
     // search if user alread exists
     let userToFind = team.members.find((o) => o._id === req.body._id);
-    console.log(userToFind);
 
     if (!userToFind) {
       const updateTeam = team.updateOne(
@@ -24,6 +23,7 @@ router.post('/:teamCode', async (req, res) => {
           }
         }
       );
+
       res.status.send(200).send({ message: 'Team joined successfuly.' });
     } else {
       res.status(401).send({ message: 'You have already joined the group.' });
