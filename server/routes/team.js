@@ -13,17 +13,21 @@ router.post('/', async (req, res) => {
     res.status(201).send({
       message: 'Team has been created. Attempting to add team to user.',
     });
-    const user = User.findByIdAndUpdate(
-      req.body,
-      { $push: { teams: req.body.teamName } },
-      { safe: true, upsert: true },
-      function (err, doc) {
-        if (err) {
-        } else {
-          console.log('User has been added');
-        }
-      }
-    );
+
+    console.log(req.body.members);
+    // const user = await User.findOne({ email: req.body.email });
+    //     if (user) {
+    //       const updateUser = user.updateOne(
+    //         { $push: { teams: team } },
+    //         function (error, success) {
+    //           if (error) {
+    //             console.log(error);
+    //           } else {
+    //             console.log(success);
+    //           }
+    //         }
+    //       );
+    //     }
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: 'Internal server error.' });

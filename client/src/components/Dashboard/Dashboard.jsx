@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from './../../redux/configureStore';
-import { update, selectUser } from '../../redux/user';
+import { update, selectUser, updateFromApi } from '../../redux/user';
 
 import DashboardNavbar from './DashboardNavbar/DashboardNavbar';
 import JoinTeam from './JoinTeam/JoinTeam';
+import DashboardLeftMenu from './DashboardLeftMenu/DashboardLeftMenu';
 
 const Dashboard = () => {
   const [teamData, setTeamData] = useState({
@@ -37,6 +38,7 @@ const Dashboard = () => {
     if (!teamData.members.find((lookup) => lookup.email === user.email)) {
       setTeamData({ members: [...teamData.members.concat(user)] });
     }
+    console.log(user);
   }, [user]);
 
   const handleChange = ({ currentTarget: input }) => {
@@ -85,11 +87,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <div>
         <DashboardNavbar />
       </div>
-      <div className="team-modal">
+      <div className="">
+        <div className="flex flex-col w-96 h-screen px-20">
+          <DashboardLeftMenu />
+        </div>
+      </div>
+      {/* <div className="team-modal">
         <div className="modal-content">
           <form onSubmit={handleSubmit}>
             <span>Team name:</span>
@@ -115,8 +122,8 @@ const Dashboard = () => {
             </button>
           </form>
         </div>
-      </div>
-      <JoinTeam />
+      </div> */}
+      {/* <JoinTeam /> */}
     </div>
   );
 };

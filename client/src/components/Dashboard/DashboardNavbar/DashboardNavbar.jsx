@@ -11,7 +11,7 @@ const DashboardNavbar = () => {
   }, [user]);
 
   return (
-    <div className="flex flex-row justify-between py-10 px-20 text-center items-center">
+    <div className="flex flex-row justify-between py-5 px-20 text-center items-center">
       <div className="flex mr-10">
         <h3>Dashboard</h3>
       </div>
@@ -47,7 +47,9 @@ const DashboardNavbar = () => {
           <span>{user?.firstName}</span>
           <span>Student</span>
         </div>
-        <button>Logout</button>
+        <button>
+          <Link to="/">Logout</Link>
+        </button>
       </div>
     </div>
   );

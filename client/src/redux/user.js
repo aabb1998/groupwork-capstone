@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
   user: {},
@@ -11,11 +12,17 @@ export const userSlice = createSlice({
     update: (state, action) => {
       state.user = action.payload;
     },
+    updateFromApi: async (state, action) => {
+      const updatedUser = await axios.get(
+        `http://localhost:3000/api/finduser/${action.payload}`
+      );
+      state.user = updatedUser;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update } = userSlice.actions;
+export const { update, updateFromApi } = userSlice.actions;
 
 export const selectUser = (state) => state.user;
 
