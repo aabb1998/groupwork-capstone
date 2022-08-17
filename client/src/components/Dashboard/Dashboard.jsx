@@ -1,102 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { store } from './../../redux/configureStore';
-import { update, selectUser, updateFromApi } from '../../redux/user';
-
-import DashboardNavbar from './DashboardNavbar/DashboardNavbar';
-import JoinTeam from './JoinTeam/JoinTeam';
-import DashboardLeftMenu from './DashboardLeftMenu/DashboardLeftMenu';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { store } from "./../../redux/configureStore";
+import { update, selectUser, updateFromApi } from "../../redux/user";
+import DashboardNavbar from "./DashboardNavbar/DashboardNavbar";
+import JoinTeam from "./JoinTeam/JoinTeam";
+import DashboardLeftMenu from "./DashboardLeftMenu/DashboardLeftMenu";
+import { selectDashboard, updateDashboard } from "../../redux/counter";
 
 const Dashboard = () => {
-  const [teamData, setTeamData] = useState({
-    teamName: '',
-    dateCreated: new Date().toISOString(),
-    projectName: '',
-    members: [],
-    teamCode: '',
-  });
-  const [newUserData, setNewUserData] = useState();
+	const [teamData, setTeamData] = useState({
+		teamName: "",
+		dateCreated: new Date().toISOString(),
+		projectName: "",
+		members: [],
+		teamCode: "",
+	});
+	const [newUserData, setNewUserData] = useState();
 
-  const { user } = useSelector(selectUser);
-  const dispatch = useDispatch();
+	const { user } = useSelector(selectUser);
+	const userDashboard = useSelector(selectDashboard);
+	const dispatch = useDispatch();
 
-  const generateCode = () => {
-    var result = [];
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < 5; i++) {
-      result.push(
-        characters.charAt(Math.floor(Math.random() * charactersLength))
-      );
-    }
-    return result.join('');
-  };
+	useEffect(() => {
+		console.log(userDashboard);
+	}, [userDashboard]);
 
-  useEffect(() => {
-    if (!teamData.members.find((lookup) => lookup.email === user.email)) {
-      setTeamData({ members: [...teamData.members.concat(user)] });
-    }
-    console.log(user);
-  }, [user]);
+	const generateCode = () => {
+		var result = [];
+		var characters =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		var charactersLength = characters.length;
+		for (var i = 0; i < 5; i++) {
+			result.push(
+				characters.charAt(Math.floor(Math.random() * charactersLength))
+			);
+		}
+		return result.join("");
+	};
 
-  const handleChange = ({ currentTarget: input }) => {
-    setTeamData({ ...teamData, [input.name]: input.value });
-  };
+	useEffect(() => {
+		if (!teamData.members.find((lookup) => lookup.email === user.email)) {
+			setTeamData({ members: [...teamData.members.concat(user)] });
+		}
+		console.log(user);
+	}, [user]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const code = generateCode();
-    teamData.teamCode = code;
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/api/addteam',
-        teamData
-      );
-      console.log('Team created.');
-      console.log(response);
-      resetValues();
-      // updateUser();
-    } catch (error) {
-      console.log(error.response.data.message);
-      resetValues();
-    }
-  };
+	const handleChange = ({ currentTarget: input }) => {
+		setTeamData({ ...teamData, [input.name]: input.value });
+	};
 
-  // const updateUser = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:3000/api/findUser/${user.email}`
-  //     );
-  //     console.log(response);
-  //     dispatch(update(response.data));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const code = generateCode();
+		teamData.teamCode = code;
+		try {
+			const response = await axios.post(
+				"http://localhost:3000/api/addteam",
+				teamData
+			);
+			console.log("Team created.");
+			console.log(response);
+			resetValues();
+			// updateUser();
+		} catch (error) {
+			console.log(error.response.data.message);
+			resetValues();
+		}
+	};
 
-  const resetValues = () => {
-    setTeamData({
-      teamName: '',
-      dateCreated: new Date().toISOString(),
-      projectName: '',
-      members: [...teamData.members],
-      teamCode: '',
-    });
-  };
+	// const updateUser = async () => {
+	//   try {
+	//     const response = await axios.get(
+	//       `http://localhost:3000/api/findUser/${user.email}`
+	//     );
+	//     console.log(response);
+	//     dispatch(update(response.data));
+	//   } catch (error) {
+	//     console.log(error);
+	//   }
+	// };
 
-  return (
-    <div className="">
-      <div>
-        <DashboardNavbar />
-      </div>
-      <div className="">
-        <div className="flex flex-col w-96 h-screen px-20">
-          <DashboardLeftMenu />
-        </div>
-      </div>
-      {/* <div className="team-modal">
+	const resetValues = () => {
+		setTeamData({
+			teamName: "",
+			dateCreated: new Date().toISOString(),
+			projectName: "",
+			members: [...teamData.members],
+			teamCode: "",
+		});
+	};
+
+	return (
+		<div className="">
+			<div>
+				<DashboardNavbar />
+			</div>
+			<div className="">
+				<div className="flex flex-col w-96 h-screen px-20">
+					<DashboardLeftMenu />
+				</div>
+			</div>
+			{/* <div className="team-modal">
         <div className="modal-content">
           <form onSubmit={handleSubmit}>
             <span>Team name:</span>
@@ -123,9 +128,9 @@ const Dashboard = () => {
           </form>
         </div>
       </div> */}
-      {/* <JoinTeam /> */}
-    </div>
-  );
+			{/* <JoinTeam /> */}
+		</div>
+	);
 };
 
 export default Dashboard;
