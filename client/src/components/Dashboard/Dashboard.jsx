@@ -7,6 +7,12 @@ import DashboardNavbar from "./DashboardNavbar/DashboardNavbar";
 import JoinTeam from "./JoinTeam/JoinTeam";
 import DashboardLeftMenu from "./DashboardLeftMenu/DashboardLeftMenu";
 import { selectDashboard, updateDashboard } from "../../redux/counter";
+import MainPage from "./DashboardSections/MainPage";
+import Calendar from "./DashboardSections/Calendar";
+import Teams from "./DashboardSections/Teams";
+import Ratings from "./DashboardSections/Ratings";
+import Tasks from "./DashboardSections/Tasks";
+import DashboardRightMenu from "./DashboardRightMenu/DashboardRightMenu";
 
 const Dashboard = () => {
 	const [teamData, setTeamData] = useState({
@@ -96,9 +102,20 @@ const Dashboard = () => {
 			<div>
 				<DashboardNavbar />
 			</div>
-			<div className="">
-				<div className="flex flex-col w-96 h-screen px-20">
+			<div className="flex flex-row ">
+				<div className="flex flex-col w-96 h-screen px-20 bg-lightBlue rounded-r-2xl">
 					<DashboardLeftMenu />
+				</div>
+				<div className="w-full ml-10 mr-10">
+					{userDashboard.counter === 0 && <MainPage />}
+					{userDashboard.counter === 1 && <Teams />}
+					{userDashboard.counter === 2 && <Calendar />}
+					{userDashboard.counter === 3 && <MainPage />}
+					{userDashboard.counter === 4 && <Tasks />}
+					{userDashboard.counter === 5 && <Ratings />}
+				</div>
+				<div className="flex flex-col w-96 h-screen px-20 rounded-l-2xl">
+					<DashboardRightMenu />
 				</div>
 			</div>
 			{/* <div className="team-modal">

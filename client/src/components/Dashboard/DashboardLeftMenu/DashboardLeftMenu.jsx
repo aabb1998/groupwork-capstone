@@ -16,7 +16,7 @@ const DashboardLeftMenu = () => {
 	const dispatch = useDispatch();
 
 	return (
-		<div className="mt-10">
+		<div className="mt-10 border-r-indigo-500">
 			<div className="flex flex-col">
 				<div className="flex flex-col text-center mb-10">
 					{[
@@ -26,8 +26,8 @@ const DashboardLeftMenu = () => {
 						["Project Board", "/", FeedIcon, 3, 0],
 						["Project Tasks", "/", SwitchIcon, 4, 2, "red"],
 						["Ratings", "/", GroupIcon, 5, 0],
-						["Inbox", "/", MailIcon, 6, 5],
-						["Notifications", "/", ChatIcon, 7, 10],
+						["Inbox", "/", MailIcon, 6, 5, "green"],
+						["Notifications", "/", ChatIcon, 7, 10, "yellow"],
 					].map(
 						([
 							title,
@@ -40,7 +40,7 @@ const DashboardLeftMenu = () => {
 							<div className="flex flex-row justify-between text-center">
 								<div className="icons">
 									<Link
-										className="hover:text-lightBlue mb-6 flex flex-row text-sm font-semibold text-lightgray"
+										className="hover:text-lightBlue mb-6 flex flex-row text-sm font-semibold text-white"
 										key={title}
 										to="/dashboard"
 										onClick={() =>
@@ -63,12 +63,13 @@ const DashboardLeftMenu = () => {
 								{notifications > 0 && (
 									<div
 										style={{ background: color }}
-										className="bg-slate-500 h-6 w-6 rounded-full text-center items-center text-sm"
+										className="bg-slate-500 h-6 w-6 rounded-lg text-center items-center text-sm"
 									>
 										<span
 											style={{
 												color: "black",
 												opacity: 1,
+												fontWeight: "bold",
 											}}
 										>
 											{notifications}
