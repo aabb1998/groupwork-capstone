@@ -80,18 +80,6 @@ const Dashboard = () => {
 		}
 	};
 
-	// const updateUser = async () => {
-	//   try {
-	//     const response = await axios.get(
-	//       `http://localhost:3000/api/findUser/${user.email}`
-	//     );
-	//     console.log(response);
-	//     dispatch(update(response.data));
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
-	// };
-
 	const resetValues = () => {
 		setTeamData({
 			teamName: "",
@@ -99,6 +87,7 @@ const Dashboard = () => {
 			projectName: "",
 			members: [...teamData.members],
 			teamCode: "",
+			sprints: 0,
 		});
 	};
 
@@ -123,34 +112,6 @@ const Dashboard = () => {
 					<DashboardRightMenu />
 				</div>
 			</div>
-			{/* <div className="team-modal">
-        <div className="modal-content">
-          <form onSubmit={handleSubmit}>
-            <span>Team name:</span>
-            <input
-              onChange={handleChange}
-              name="teamName"
-              required
-              placeholder="Team Name"
-              value={teamData.teamName}
-              type="text"
-            />
-            <span>Project name:</span>
-            <input
-              onChange={handleChange}
-              name="projectName"
-              required
-              placeholder="Project Name"
-              value={teamData.projectName}
-              type="text"
-            />
-            <button onSubmit={handleSubmit} type="submit">
-              Create Team
-            </button>
-          </form>
-        </div>
-      </div> */}
-			{/* <JoinTeam /> */}
 		</div>
 	);
 };

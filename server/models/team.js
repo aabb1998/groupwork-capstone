@@ -8,18 +8,9 @@ const teamSchema = new mongoose.Schema({
 	projectName: { type: String, required: true },
 	members: { type: Array, default: [] },
 	teamCode: { type: String, required: true },
-	teamReviews: { type: Number, required: true },
+	sprints: { type: Number, required: true },
 });
 
 const Team = mongoose.model("team", teamSchema);
-
-// const validate = (data) => {
-//   const schema = Joi.object({
-//     teamName: Joi.string().required().label('Team Name'),
-//     dateCreated: Joi.date().required().label('Date Created'),
-//     projectName: Joi.string().required().label('Project name'),
-//     members: Joi.array().items(Joi.string()),
-//   });
-// };
 
 module.exports = { Team };

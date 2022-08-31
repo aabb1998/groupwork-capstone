@@ -2,11 +2,79 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, update } from "../../../redux/user";
 import Team from "./Team";
+import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const Teams = () => {
-	const [showModal, setShowModal] = useState(true);
+	const [showModal, setShowModal] = useState(false);
 	const { user } = useSelector(selectUser);
+
+	const [teamData, setTeamData] = useState({
+		teamName: "",
+		dateCreated: new Date().toISOString(),
+		projectName: "",
+		members: [],
+		teamCode: "",
+		sprints: 0,
+	});
+
+	useEffect(() => {
+		if (!teamData.members.find((lookup) => lookup.email === user.email)) {
+			setTeamData({ members: [...teamData.members.concat(user)] });
+		}
+		console.log(user);
+		if (!user._id) {
+			navigate("/homepage");
+		}
+	}, [user]);
+
+	const handleChange = ({ currentTarget: input }) => {
+		setTeamData({ ...teamData, [input.name]: input.value });
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const code = generateCode();
+		teamData.teamCode = code;
+		console.log(teamData);
+		try {
+			const response = await axios.post(
+				"http://localhost:3000/api/addteam",
+				teamData
+			);
+			console.log("Team created.");
+			console.log(response);
+			resetValues();
+			// updateUser();
+		} catch (error) {
+			console.log(error);
+			resetValues();
+		}
+	};
+
+	const resetValues = () => {
+		setTeamData({
+			teamName: "",
+			dateCreated: new Date().toISOString(),
+			projectName: "",
+			members: [...teamData.members],
+			teamCode: "",
+			sprints: 0,
+		});
+	};
+
+	const generateCode = () => {
+		var result = [];
+		var characters =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		var charactersLength = characters.length;
+		for (var i = 0; i < 5; i++) {
+			result.push(
+				characters.charAt(Math.floor(Math.random() * charactersLength))
+			);
+		}
+		return result.join("");
+	};
 
 	return (
 		<div className="w-">
@@ -73,6 +141,10 @@ const Teams = () => {
 											}}
 											type="text"
 											placeholder="Team Name"
+											value={teamData.teamName}
+											required
+											name="teamName"
+											onChange={handleChange}
 										/>
 									</div>
 									<div className="mb-5 w-72 justify-between flex">
@@ -85,8 +157,12 @@ const Teams = () => {
 												width: "170px",
 												fontSize: "10px",
 											}}
+											onChange={handleChange}
+											required
+											value={teamData.projectName}
 											type="text"
 											placeholder="Project Name"
+											name="projectName"
 										/>
 									</div>
 									<div className="mb-5 w-72 justify-between flex">
@@ -100,7 +176,11 @@ const Teams = () => {
 												fontSize: "10px",
 											}}
 											type="number"
+											required
+											onChange={handleChange}
+											value={teamData.sprints}
 											placeholder="Sprints"
+											name="sprints"
 										/>
 									</div>
 								</div>
@@ -116,7 +196,7 @@ const Teams = () => {
 									<button
 										className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
 										type="button"
-										onClick={() => setShowModal(false)}
+										onClick={handleSubmit}
 									>
 										Create Team
 									</button>
