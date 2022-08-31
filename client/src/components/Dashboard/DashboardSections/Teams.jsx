@@ -93,11 +93,20 @@ const Teams = () => {
 			<div className="w-full flex justify-end">
 				<div className="flex ">
 					<button
-						className="text-sm text-white bg-lightBlue p-2 rounded-lg flex flex-row text-center items-center"
+						className="text-sm text-white bg-lightgray p-2 rounded-lg flex flex-row text-center items-center mr-4"
 						onClick={() => setShowModal(true)}
 					>
 						<AiOutlinePlusCircle style={{ marginRight: "10" }} />
 						Join Team
+					</button>
+				</div>
+				<div className="flex ">
+					<button
+						className="text-sm text-white bg-lightBlue p-2 rounded-lg flex flex-row text-center items-center"
+						onClick={() => setShowModal(true)}
+					>
+						<AiOutlinePlusCircle style={{ marginRight: "10" }} />
+						Create Team
 					</button>
 				</div>
 			</div>
