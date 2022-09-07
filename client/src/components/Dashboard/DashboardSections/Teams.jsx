@@ -89,8 +89,8 @@ const Teams = () => {
 
 	return (
 		<div className="w-">
-			<div className="teams-header">
-				<h4>Your teams</h4>
+			<div className="mb-10">
+				<h4 className="text-3xl font-semibold">Your teams</h4>
 			</div>
 			<div className="teams">
 				{user ? (
@@ -197,13 +197,16 @@ const Teams = () => {
 											name="sprints"
 										/>
 									</div>
-									<div className="mb-5 w-72 justify-between flex">
-										<span>Project End:</span>
+									<div className="mb-5 w-72 justify-between flex flex-row">
+										<span className="w-56">
+											Project End:
+										</span>
 										<DatePicker
 											selected={endDate}
 											onChange={(date: Date) =>
 												setEndDate(date)
 											}
+											className="border-2 rounded-lg"
 										/>
 									</div>
 								</div>
