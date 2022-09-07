@@ -4,18 +4,26 @@ import { selectUser, update } from "../../../redux/user";
 import Team from "./Team";
 import axios from "axios";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import JoinTeam from "../JoinTeam/JoinTeam";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const Teams = () => {
 	const [showModal, setShowModal] = useState(false);
+	const [endDate, setEndDate] = useState(new Date());
+	const [startDate, setStartDate] = useState(new Date());
+
 	const { user } = useSelector(selectUser);
 
 	const [teamData, setTeamData] = useState({
 		teamName: "",
-		dateCreated: new Date().toISOString(),
+		dateCreated: new Date(),
 		projectName: "",
 		members: [],
 		teamCode: "",
 		sprints: 0,
+		endDate,
 	});
 
 	useEffect(() => {
@@ -36,6 +44,8 @@ const Teams = () => {
 		e.preventDefault();
 		const code = generateCode();
 		teamData.teamCode = code;
+		teamData.dateCreated = new Date();
+		teamData.endDate = endDate;
 		console.log(teamData);
 		try {
 			const response = await axios.post(
@@ -55,11 +65,12 @@ const Teams = () => {
 	const resetValues = () => {
 		setTeamData({
 			teamName: "",
-			dateCreated: new Date().toISOString(),
+			dateCreated: new Date(),
 			projectName: "",
 			members: [...teamData.members],
 			teamCode: "",
 			sprints: 0,
+			endDate,
 		});
 	};
 
@@ -92,13 +103,7 @@ const Teams = () => {
 			</div>
 			<div className="w-full flex justify-end">
 				<div className="flex ">
-					<button
-						className="text-sm text-white bg-lightgray p-2 rounded-lg flex flex-row text-center items-center mr-4"
-						onClick={() => setShowModal(true)}
-					>
-						<AiOutlinePlusCircle style={{ marginRight: "10" }} />
-						Join Team
-					</button>
+					<JoinTeam />
 				</div>
 				<div className="flex ">
 					<button
@@ -190,6 +195,15 @@ const Teams = () => {
 											value={teamData.sprints}
 											placeholder="Sprints"
 											name="sprints"
+										/>
+									</div>
+									<div className="mb-5 w-72 justify-between flex">
+										<span>Project End:</span>
+										<DatePicker
+											selected={endDate}
+											onChange={(date: Date) =>
+												setEndDate(date)
+											}
 										/>
 									</div>
 								</div>

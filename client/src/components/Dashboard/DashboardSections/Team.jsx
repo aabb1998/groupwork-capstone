@@ -1,4 +1,6 @@
 import React from "react";
+import ProjectProgressBar from "./ProjectProgressBar/ProjectProgressBar";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 const Team = ({ team }) => {
 	const teamMembers = team.members.length;
@@ -35,6 +37,14 @@ const Team = ({ team }) => {
 							</span>
 						)}
 					</span>
+				</div>
+
+				<div className="">
+					<ProjectProgressBar
+						startDate={team.dateCreated}
+						endDate={team.endDate}
+						sprints={team.sprints}
+					/>
 				</div>
 			</div>
 		</div>
