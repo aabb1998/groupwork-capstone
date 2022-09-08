@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ProjectProgressBar from "./ProjectProgressBar/ProjectProgressBar";
 import ProgressBar from "@ramonak/react-progress-bar";
+import { BsFillArrowUpSquareFill } from "react-icons/bs";
+import { BsFillArrowDownSquareFill } from "react-icons/bs";
+import { AiFillCopy } from "react-icons/ai";
 
 const Team = ({ team }) => {
 	const [showTeam, setShowTeam] = useState(false);
@@ -25,12 +28,20 @@ const Team = ({ team }) => {
 						</span>
 						<span> {team.projectName}</span>
 					</div>
-					<div className="team-code">
+					<div className="flex flex-col content-center justify-center text-center items-center">
 						<span className="font-bold">
 							Code:
 							<br />
 						</span>
 						<span> {team.teamCode}</span>
+						<AiFillCopy
+							onClick={() =>
+								navigator.clipboard.writeText(
+									`${team.teamCode}`
+								)
+							}
+							style={{ cursor: "pointer" }}
+						/>
 					</div>
 				</div>
 				<div className={`${!showTeam ? "block" : "hidden"}`}>
@@ -67,9 +78,27 @@ const Team = ({ team }) => {
 					</div>
 				</div>
 			</div>
-			<button onClick={() => setShowTeam(!showTeam)}>
-				{showTeam ? "Open" : "Close"}
-			</button>
+			<div className="flex flex-row justify-center content-center mt-3">
+				{showTeam ? (
+					<BsFillArrowDownSquareFill
+						style={{
+							cursor: "pointer",
+							width: "20px",
+							height: "20px",
+						}}
+						onClick={() => setShowTeam(!showTeam)}
+					/>
+				) : (
+					<BsFillArrowUpSquareFill
+						style={{
+							cursor: "pointer",
+							width: "20px",
+							height: "20px",
+						}}
+						onClick={() => setShowTeam(!showTeam)}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };

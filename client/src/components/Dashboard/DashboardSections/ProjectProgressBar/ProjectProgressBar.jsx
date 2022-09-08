@@ -6,13 +6,33 @@ import { useState } from "react";
 
 const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 	const [progress, setProgress] = useState(0);
-	const [sprintDates, setSprintDates] = useState([]);
+	const [sprintDates, setSprintDates] = useState();
 
 	const getSprintDates = () => {
-		var myDate = startDate.split("T")[0];
-		var myDate = myDate.split("-");
-		var newDate = new Date(myDate[2], myDate[1] - 1, myDate[0]);
-		console.log(newDate.getTime());
+		var projectStart = startDate.split("T")[0];
+		var projectEnd = endDate.split("T")[0];
+		var projectStart = Date.parse(projectStart);
+		var projectEnd = Date.parse(projectEnd);
+
+		var difference = (projectEnd - projectStart) / (1000 * 3600 * 24);
+		var daysPerSprint = Math.floor(difference / sprints);
+
+		let currentDate = projectStart;
+		let arr = [];
+		for (let i = 0; i < sprints; i++) {
+			// currentDate += daysToMilliseconds(daysPerSprint);
+			var dateToAdd = daysToMilliseconds(daysPerSprint);
+			currentDate += dateToAdd;
+			var date = new Date(currentDate);
+
+			arr.push(date.toDateString());
+		}
+		console.log(arr);
+		setSprintDates(arr);
+	};
+
+	const daysToMilliseconds = (days) => {
+		return days * 24 * 60 * 60 * 1000;
 	};
 
 	useEffect(() => {
@@ -31,26 +51,15 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 	return (
 		<div className="">
 			<div className="flex justify-between mt-10">
-				<div className="flex flex-col">
-					<span className="font-semibold">Project Start:</span>
-					<span> {startDate.split("T")[0]}</span>
-				</div>
-				<div className="flex flex-col">
-					<span className="font-semibold">Sprint 2:</span>
-					<span> {startDate.split("T")[0]}</span>
-				</div>
-				<div className="flex flex-col">
-					<span className="font-semibold">Sprint 3:</span>
-					<span> {startDate.split("T")[0]}</span>
-				</div>
-				<div className="flex flex-col">
-					<span className="font-semibold">Sprint 4:</span>
-					<span> {startDate.split("T")[0]}</span>
-				</div>
-				<div className="flex flex-col">
-					<span className="font-semibold">Project End:</span>
-					<span> {endDate.split("T")[0]}</span>
-				</div>
+				{sprintDates?.length === sprints &&
+					sprintDates.map((date, index) => (
+						<div key={index} className="flex flex-col">
+							<span className="font-semibold">
+								Sprint {index + 1}:
+							</span>
+							<span>{date}</span>
+						</div>
+					))}
 			</div>
 			<ProgressBar
 				completed={progress}
