@@ -4,11 +4,19 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { BsFillArrowUpSquareFill } from "react-icons/bs";
 import { BsFillArrowDownSquareFill } from "react-icons/bs";
 import { AiFillCopy } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Team = ({ team }) => {
 	const [showTeam, setShowTeam] = useState(false);
 
 	const teamMembers = team.members.length;
+
+	const copyToClipBoard = () => {
+		navigator.clipboard.writeText(team.teamCode);
+		const notify = () => toast("Wow");
+		notify();
+	};
 
 	return (
 		<div className="flex flex-col p-10 mb-5 bg-lightgray2  rounded-lg">
@@ -35,11 +43,7 @@ const Team = ({ team }) => {
 						</span>
 						<span> {team.teamCode}</span>
 						<AiFillCopy
-							onClick={() =>
-								navigator.clipboard.writeText(
-									`${team.teamCode}`
-								)
-							}
+							onClick={copyToClipBoard()}
 							style={{ cursor: "pointer" }}
 						/>
 					</div>
