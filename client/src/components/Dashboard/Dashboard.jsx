@@ -14,6 +14,7 @@ import Ratings from "./DashboardSections/Ratings";
 import Tasks from "./DashboardSections/Tasks";
 import DashboardRightMenu from "./DashboardRightMenu/DashboardRightMenu";
 import { useNavigate } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
@@ -29,10 +30,6 @@ const Dashboard = () => {
 	const { user } = useSelector(selectUser);
 	const userDashboard = useSelector(selectDashboard);
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		console.log(userDashboard);
-	}, [userDashboard]);
 
 	const generateCode = () => {
 		var result = [];
@@ -108,9 +105,9 @@ const Dashboard = () => {
 					{userDashboard.counter === 4 && <Tasks />}
 					{userDashboard.counter === 5 && <Ratings />}
 				</div>
-				<div className="flex flex-col w-96 h-screen px-20 rounded-l-2xl">
+				{/* <div className="flex flex-col w-96 h-screen px-20 rounded-l-2xl">
 					<DashboardRightMenu />
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

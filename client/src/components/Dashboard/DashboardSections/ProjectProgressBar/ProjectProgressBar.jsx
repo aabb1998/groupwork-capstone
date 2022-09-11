@@ -3,12 +3,17 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import "./styles.scss";
 import { useEffect } from "react";
 import { useState } from "react";
+import ProjectReview from "../ProjectReview/ProjectReview";
 
 const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 	const [progress, setProgress] = useState(0);
 	const [sprintDates, setSprintDates] = useState();
+	const [sprintCount, setSprintCount] = useState(0);
+	const [nextReview, setNextReview] = useState();
+	const [durationPerSprint, setDurationPerSprint] = useState(0);
+	const [sprintDays, setSprintDays] = useState();
 
-	const getSprintDates = () => {
+	const getSprintDates = async () => {
 		var projectStart = startDate.split("T")[0];
 		var projectEnd = endDate.split("T")[0];
 		var projectStart = Date.parse(projectStart);
@@ -16,7 +21,6 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 
 		var difference = (projectEnd - projectStart) / (1000 * 3600 * 24);
 		var daysPerSprint = Math.floor(difference / sprints);
-
 		let currentDate = projectStart;
 		let arr = [];
 		for (let i = 0; i < sprints; i++) {
@@ -27,8 +31,15 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 
 			arr.push(date.toDateString());
 		}
-		console.log(arr);
 		setSprintDates(arr);
+		setDurationPerSprint(daysPerSprint);
+		let arr1 = [];
+		let count = 0;
+		for (let i = 0; i < sprints; i++) {
+			count += durationPerSprint;
+			arr1.push(count);
+		}
+		setSprintDays(arr1);
 	};
 
 	const daysToMilliseconds = (days) => {
@@ -47,6 +58,26 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 		getSprintDates();
 		setProgress(Math.floor((daysElapsed / totalDays) * 100));
 	}, []);
+
+	useEffect(() => {
+		calculateTimeToReview();
+	}, [sprintDates]);
+
+	const calculateTimeToReview = () => {
+		const currentDate = new Date().getTime();
+		let findNextReview;
+		for (let i = 0; i < sprintDays?.length; i++) {
+			if (progress <= sprintDays[i]) {
+				findNextReview = sprintDates[i];
+				setSprintCount(i);
+				break;
+			}
+		}
+	};
+
+	useEffect(() => {
+		setNextReview(sprintDates?.[sprintCount]);
+	}, [sprintDates]);
 
 	return (
 		<div className="">
@@ -68,6 +99,11 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 				labelClassName="label"
 				maxCompleted={100}
 				animateOnRender={true}
+			/>
+			<ProjectReview
+				nextReview={nextReview}
+				sprintCount={sprintCount}
+				sprintDates={sprintDates}
 			/>
 		</div>
 	);

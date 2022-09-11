@@ -4,6 +4,8 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { BsFillArrowUpSquareFill } from "react-icons/bs";
 import { BsFillArrowDownSquareFill } from "react-icons/bs";
 import { AiFillCopy } from "react-icons/ai";
+import { useEffect } from "react";
+import { NotificationManager } from "react-notifications";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,10 +13,22 @@ const Team = ({ team }) => {
 	const [showTeam, setShowTeam] = useState(false);
 
 	const teamMembers = team.members.length;
+	useEffect(() => {
+		console.log(team);
+	}, [team]);
 
 	const copyToClipBoard = () => {
 		navigator.clipboard.writeText(team.teamCode);
-		const notify = () => toast("Wow");
+		const notify = () =>
+			toast.info("Copied to clipboard.", {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		notify();
 	};
 
@@ -43,7 +57,7 @@ const Team = ({ team }) => {
 						</span>
 						<span> {team.teamCode}</span>
 						<AiFillCopy
-							onClick={copyToClipBoard()}
+							onClick={copyToClipBoard}
 							style={{ cursor: "pointer" }}
 						/>
 					</div>
@@ -103,6 +117,7 @@ const Team = ({ team }) => {
 					/>
 				)}
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
