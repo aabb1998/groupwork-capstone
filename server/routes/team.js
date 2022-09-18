@@ -1,8 +1,14 @@
 const router = require("express").Router();
+const { Calendar } = require("../models/calendar");
 const { Team, validate } = require("../models/team");
 const { User } = require("../models/user");
 
 router.post("/", async (req, res) => {
+	calendarEvents = {
+		teamCode: req.body.teamCode,
+		events: [],
+		dateCreated: req.body.dateCreated,
+	};
 	try {
 		const team = await Team.findOne({ teamName: req.body.teamName });
 		if (team) {
@@ -14,6 +20,13 @@ router.post("/", async (req, res) => {
 		res.status(201).send({
 			message: "Team has been created. Attempting to add team to user.",
 		});
+
+		await new Calendar({
+			teamCode: req.body.teamCode,
+			events: [],
+			dateCreated: req.body.dateCreated,
+			dateEnded: req.body.endDate,
+		}).save();
 
 		// const user = await User.findOne({ email: req.body.members[0].email });
 		// if (user) {
