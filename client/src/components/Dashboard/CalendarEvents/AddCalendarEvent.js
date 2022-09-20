@@ -6,17 +6,17 @@ import DatePicker from "react-datepicker";
 import { useState } from "react";
 import axios from "axios";
 
-const AddCalendarEvent = ({ show }) => {
+const AddCalendarEvent = ({ show, fetchEvents, allEvents }) => {
 	const { user } = useSelector(selectUser);
-	const [endDate, setEndDate] = useState(new Date());
-	const [startDate, setStartDate] = useState(new Date());
+	const [end, setEnd] = useState(new Date());
+	const [start, setStart] = useState(new Date());
 	const [showModal, setShowModal] = useState(false);
 
 	const [eventData, setEventData] = useState({
-		eventName: "",
-		startDate,
+		title: "",
+		start,
 		teamName: "",
-		endDate,
+		end,
 	});
 
 	const handleChange = ({ currentTarget: input }) => {
@@ -25,13 +25,13 @@ const AddCalendarEvent = ({ show }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		eventData.startDate = startDate;
-		eventData.endDate = endDate;
+		eventData.start = start;
+		eventData.end = end;
 		const findTeam = user.teams.filter((obj) => {
 			return obj.teamName === eventData.teamName;
 		});
 		const foundCode = findTeam[0].teamCode;
-
+		console.log(allEvents);
 		try {
 			const response = await axios.post(
 				`http://localhost:3000/api/addCalendarEvent/${foundCode}`,
@@ -41,6 +41,8 @@ const AddCalendarEvent = ({ show }) => {
 		} catch (error) {
 			console.log(error);
 		}
+		allEvents.concat(eventData);
+		console.log(allEvents);
 	};
 
 	return (
@@ -101,20 +103,18 @@ const AddCalendarEvent = ({ show }) => {
 									type="text"
 									className="border-2 rounded-lg"
 									placeholder="Event name"
-									value={eventData.eventName}
+									value={eventData.title}
 									required
-									name="eventName"
+									name="title"
 									onChange={handleChange}
 								/>
 							</div>
 							<div className="mb-5 w-72 justify-between flex flex-row">
 								<span className="w-56">Event Start:</span>
 								<DatePicker
-									selected={startDate}
+									selected={start}
 									required
-									onChange={(date: Date) =>
-										setStartDate(date)
-									}
+									onChange={(date: Date) => setStart(date)}
 									className="border-2 rounded-lg"
 								/>
 							</div>
@@ -122,8 +122,8 @@ const AddCalendarEvent = ({ show }) => {
 								<span className="w-56">Event End:</span>
 								<DatePicker
 									required
-									selected={endDate}
-									onChange={(date: Date) => setEndDate(date)}
+									selected={end}
+									onChange={(date: Date) => setEnd(date)}
 									className="border-2 rounded-lg"
 								/>
 							</div>

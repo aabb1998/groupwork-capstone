@@ -2,7 +2,6 @@ const { Calendar } = require("../models/calendar");
 const router = require("express").Router();
 
 router.get("/:teamCode", async (req, res) => {
-	console.log(req.params.teamCode);
 	try {
 		const calendarEvent = await Calendar.findOne({
 			teamCode: req.params.teamCode,
