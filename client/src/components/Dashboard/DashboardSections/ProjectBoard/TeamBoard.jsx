@@ -16,22 +16,24 @@ const TeamBoard = ({ data }) => {
 
 	return (
 		<div>
-			<Board
-				onCardDragEnd={handleCardMove}
-				allowRemoveLane
-				allowRenameColumn
-				allowRemoveCard
-				onLaneRemove={console.log}
-				onCardRemove={console.log}
-				onLaneRename={console.log}
-				initialBoard={boardData}
-				allowAddCard={{ on: "top" }}
-				onNewCardConfirm={(draftCard) => ({
-					id: new Date().getTime(),
-					...draftCard,
-				})}
-				onCardNew={console.log}
-			/>
+			{boardData && (
+				<Board
+					onCardDragEnd={handleCardMove}
+					allowRemoveLane
+					allowRenameColumn
+					allowRemoveCard
+					onLaneRemove={console.log}
+					onCardRemove={console.log}
+					onLaneRename={console.log}
+					initialBoard={boardData}
+					allowAddCard={{ on: "top" }}
+					onNewCardConfirm={(draftCard) => ({
+						id: new Date().getTime(),
+						...draftCard,
+					})}
+					onCardNew={console.log}
+				/>
+			)}
 		</div>
 	);
 };

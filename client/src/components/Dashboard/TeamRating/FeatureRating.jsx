@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import RatingSection from "./RatingSection";
 
-const MemberRating = ({ member }) => {
+const FeatureRating = ({ features }) => {
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		console.log(features);
+	}, [features]);
+
 	return (
 		<div className="bg-white m-4 rounded-md p-1 ">
 			<div className="flex align-middle flex-row justify-between">
-				<div className=""> Rate {member.firstName}</div>
+				{features &&
+					features.map((feature, index) => (
+						<span>{feature.title}</span>
+					))}
 				<div className="items-center flex">
 					<BsFillArrowRightSquareFill
 						onClick={() => setOpen(!open)}
@@ -25,4 +33,4 @@ const MemberRating = ({ member }) => {
 	);
 };
 
-export default MemberRating;
+export default FeatureRating;

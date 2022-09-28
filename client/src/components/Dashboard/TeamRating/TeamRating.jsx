@@ -1,15 +1,33 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { AiFillLock } from "react-icons/ai";
 import { BsFillArrowUpSquareFill } from "react-icons/bs";
-import MemberRating from "./MemberRating";
+import FeatureRating from "./FeatureRating";
+import MemberRating from "./FeatureRating";
 
 const TeamRating = ({ team, user }) => {
 	const [lock, setLock] = useState(false);
+	const [teamFeatures, setTeamFeatures] = useState();
+
+	const getTeamFeatures = async () => {
+		try {
+			const response = await axios.get(
+				`http://localhost:3000/api/getfeatures/${team.teamCode}`
+			);
+			setTeamFeatures(response.data.data[2]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
-		console.log(team);
+		getTeamFeatures();
 	}, [team]);
+
+	useEffect(() => {
+		console.log(teamFeatures);
+	}, [teamFeatures]);
 
 	return (
 		<div className="bg-zinc-400 m-10 p-4 ">
@@ -31,7 +49,10 @@ const TeamRating = ({ team, user }) => {
 				{team &&
 					lock &&
 					team.members.map((member, index) => (
-						<MemberRating member={member} />
+						<FeatureRating
+							key={index}
+							features={teamFeatures?.cards}
+						/>
 					))}
 			</div>
 		</div>
