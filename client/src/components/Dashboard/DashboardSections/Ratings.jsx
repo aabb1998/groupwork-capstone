@@ -7,7 +7,7 @@ const Ratings = () => {
 	const { user } = useSelector(selectUser);
 
 	return (
-		<div className="">
+		<div className="overflow-hidden">
 			{user ? (
 				user.teams.map((team, index) => (
 					<TeamRating team={team} user={user} />

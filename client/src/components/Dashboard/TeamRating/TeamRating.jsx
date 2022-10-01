@@ -26,7 +26,10 @@ const TeamRating = ({ team, user }) => {
 	}, [team]);
 
 	useEffect(() => {
-		console.log(teamFeatures);
+		// console.log(teamFeatures);
+		teamFeatures?.cards.map((team, index) => {
+			// console.log(team);
+		});
 	}, [teamFeatures]);
 
 	return (
@@ -48,12 +51,12 @@ const TeamRating = ({ team, user }) => {
 			<div className="">
 				{team &&
 					lock &&
-					team.members.map((member, index) => (
-						<FeatureRating
-							key={index}
-							features={teamFeatures?.cards}
-						/>
-					))}
+					teamFeatures?.cards.map(
+						(feature, index) => (
+							<FeatureRating key={index} feature={feature} />
+						)
+						// console.log(feature)
+					)}
 			</div>
 		</div>
 	);
