@@ -1,8 +1,11 @@
 import React, { useState, Component } from "react";
 import InputNumber from "react-rating";
 import ReactHover, { Trigger, Hover } from "react-hover";
+import { selectUser } from "../../../redux/user";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
-const RatingSection = ({ featureName }) => {
+const RatingSection = ({ feature, featureName, teamCode }) => {
 	const [num, setNum] = useState(2.2);
 	const [completeness, setCompleteness] = useState(0);
 	const [correctness, setCorrectness] = useState(0);
@@ -14,11 +17,57 @@ const RatingSection = ({ featureName }) => {
 	const [inputValue, setInputValue] = useState("");
 	const [userFeedback, setUserFeedback] = useState("");
 
+	const { user } = useSelector(selectUser);
+
 	const optionsCursorTrueWithMargin = {
 		followCursor: true,
 		shiftX: 20,
 		shiftY: 0,
 	};
+
+	const handleRatingSubmit = async () => {
+		const data = {
+			communicationRating: 4.5,
+			collaborationRating: 4.2,
+			functionalityRating: 3,
+			userRating: 2,
+			feedback: "testing inpsdsdut",
+			email: "haytchss@ha",
+		};
+
+		const featureInfo = await handleRatingRequest();
+
+		if (featureInfo.rating.find((item) => item.email === user.email)) {
+			console.log("user already added rating and is found");
+		} else {
+			console.log("Rating from user not found.");
+			featureInfo.rating.push({
+				communicationRating: 4.5,
+				collaborationRating: 4.2,
+				functionalityRating: 3,
+				userRating: 2,
+				feedback: "testing inpsdsdut",
+				email: "haytchwewss@ha",
+			});
+		}
+
+		console.log(featureInfo);
+	};
+
+	const handleRatingRequest = async () => {
+		let info;
+		try {
+			const response = await axios.get(
+				`http://localhost:3000/api/getfeatures/${teamCode}`
+			);
+			let objectData = response.data.data[2].cards;
+			info = objectData.find((item) => item.id === feature.id);
+		} catch (error) {
+			console.log(error);
+		}
+		return info;
+	};
+
 	return (
 		<div className="">
 			<div className="flex flex-row justify-between mt-4 text-center align-middle items-center"></div>
@@ -172,7 +221,10 @@ const RatingSection = ({ featureName }) => {
 				</div>
 			</div>
 			<div className="flex text-center justify-center mt-5 mb-5">
-				<button className="text-sm p-3 pl-5 pr-5 bg-lightBlue text-white font-semibold rounded-lg">
+				<button
+					onClick={handleRatingSubmit}
+					className="text-sm p-3 pl-5 pr-5 bg-lightBlue text-white font-semibold rounded-lg"
+				>
 					Submit Rating for {featureName}
 				</button>
 			</div>

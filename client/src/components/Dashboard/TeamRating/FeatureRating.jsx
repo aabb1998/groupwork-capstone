@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import RatingSection from "./RatingSection";
 
-const FeatureRating = ({ feature }) => {
+const FeatureRating = ({ feature, teamCode }) => {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
@@ -23,7 +23,11 @@ const FeatureRating = ({ feature }) => {
 			</div>
 			{open && (
 				<div className="">
-					<RatingSection featureName={feature.title} />
+					<RatingSection
+						feature={feature}
+						featureName={feature.title}
+						teamCode={teamCode}
+					/>
 				</div>
 			)}
 		</div>

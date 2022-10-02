@@ -12,6 +12,7 @@ const joinTeam = require("./routes/JoinTeam");
 const addCalendarEvent = require("./routes/addCalendarEvent");
 const getCalendarEvents = require("./routes/getCalendarEvents");
 const getFeature = require("./routes/getFeature");
+const addRating = require("./routes/addRating");
 // const addFeatures = require("./routes/addFeatures");
 
 // database connection
@@ -31,6 +32,7 @@ app.use("/api/jointeam", joinTeam);
 app.use("/api/addCalendarEvent", addCalendarEvent);
 app.use("/api/getCalendarEvents", getCalendarEvents);
 app.use("/api/getFeatures", getFeature);
+app.use("/api/addRating", addRating);
 // app.use("/api/addFeatures", addFeatures);
 
 const port = process.env.PORT || 8080;

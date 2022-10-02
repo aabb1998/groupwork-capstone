@@ -53,7 +53,11 @@ const TeamRating = ({ team, user }) => {
 					lock &&
 					teamFeatures?.cards.map(
 						(feature, index) => (
-							<FeatureRating key={index} feature={feature} />
+							<FeatureRating
+								teamCode={team.teamCode}
+								key={index}
+								feature={feature}
+							/>
 						)
 						// console.log(feature)
 					)}
