@@ -1,13 +1,22 @@
 const { Features } = require('../models/features');
 const router = require('express').Router();
 
-router.get('/:teamCode', async (req, res) => {
-  console.log(req.params.teamCode);
+router.post('/:teamCode', async (req, res) => {
+  console.log(req.body);
   try {
     const teamFeature = await Features.findOne({
       teamCode: req.params.teamCode,
     });
-    if (!teamFeature) {
+
+    if (teamFeature) {
+      await teamFeature.delete();
+      console.log('Team found feature and deleted');
+      await new Features({
+        teamCode: req.params.teamCode,
+        features: req.body.columns,
+      }).save();
+    } else {
+      console.log('Feature not found');
       await new Features({
         teamCode: req.params.teamCode,
         features: [
@@ -28,14 +37,6 @@ router.get('/:teamCode', async (req, res) => {
           },
         ],
       }).save();
-      return res.status.send({
-        message: 'No features found for this team. Created a new feature list.',
-      });
-    } else {
-      return res.status(200).send({
-        message: 'Team features found',
-        data: teamFeature.features,
-      });
     }
   } catch (error) {}
 });

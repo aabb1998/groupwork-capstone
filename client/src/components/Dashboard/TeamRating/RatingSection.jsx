@@ -3,9 +3,13 @@ import InputNumber from 'react-rating';
 import ReactHover, { Trigger, Hover } from 'react-hover';
 import { selectUser } from '../../../redux/user';
 import { useDispatch, useSelector } from 'react-redux';
+import { NotificationManager } from 'react-notifications';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const RatingSection = ({ feature, featureName, teamCode }) => {
+  const [rated, setRated] = useState(false);
   const [num, setNum] = useState(2.2);
   const [completeness, setCompleteness] = useState(0);
   const [correctness, setCorrectness] = useState(0);
@@ -25,33 +29,66 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
     shiftY: 0,
   };
 
+  const ratingLimit = () => {
+    navigator.clipboard.writeText('You have already rated this feature.');
+    const notify = () =>
+      toast.warn('You have already rated this feature!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    notify();
+    setRated(true);
+  };
   const handleRatingSubmit = async () => {
-    const data = {
-      communicationRating: communication,
-      collaborationRating: collaboration,
-      functionalityRating: userFunction,
-      featureRating:
-        completeness + correctness + involvement + functionality / 4,
-      feedback: userFeedback,
-      email: user.email,
-    };
-
-    const featureInfo = await handleRatingRequest();
-
-    if (featureInfo.rating.find((item) => item.email === user.email)) {
-      console.log(item.email);
-      console.log(user.email);
-      console.log('user already added rating and is found');
+    // let newRatings = feature.ratings.push({
+    //   communicationRating: communication,
+    //   collaborationRating: collaboration,
+    //   functionalityRating: userFunction,
+    //   featureRating:
+    //     completeness + correctness + involvement + functionality / 4,
+    //   feedback: userFeedback,
+    //   email: user.email,
+    // });
+    console.log(feature);
+    if (feature?.ratings?.find((x) => x.email === user.email)) {
+      console.log('You have already rated this feature!');
+      ratingLimit();
     } else {
-      console.log('Rating from user not found.');
-      const response = await axios.post(
-        `http://localhost:3000/api/addrating/${teamCode}/features/${feature.featureId}`,
+      feature.ratings.push({
+        communicationRating: communication,
+        collaborationRating: collaboration,
+        functionalityRating: userFunction,
+        featureRating:
+          (completeness + correctness + involvement + functionality) / 4,
+        feedback: userFeedback,
+        email: user.email,
+      });
+
+      const data = {
+        communicationRating: communication,
+        collaborationRating: collaboration,
+        functionalityRating: userFunction,
+        featureRating:
+          (completeness + correctness + involvement + functionality) / 4,
+        feedback: userFeedback,
+        email: user.email,
+        featureId: feature.featureId,
+        description: feature.description,
+        title: feature.title,
+        teamCode: teamCode,
+        ratings: feature.ratings,
+      };
+
+      const response = await axios.put(
+        `http://localhost:3000/api/addrating/${teamCode}/addrating/${feature.featureId}`,
         data
       );
-      console.log(response);
     }
-
-    console.log(featureInfo);
   };
 
   const handleRatingRequest = async () => {
@@ -221,13 +258,23 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
         </div>
       </div>
       <div className="flex text-center justify-center mt-5 mb-5">
-        <button
-          onClick={handleRatingSubmit}
-          className="text-sm p-3 pl-5 pr-5 bg-lightBlue text-white font-semibold rounded-lg"
-        >
-          Submit Rating for {featureName}
-        </button>
+        {!rated ? (
+          <button
+            onClick={handleRatingSubmit}
+            className="text-sm p-3 pl-5 pr-5 bg-lightBlue text-white font-semibold rounded-lg"
+          >
+            Submit Rating for {featureName}
+          </button>
+        ) : (
+          <button
+            onClick={handleRatingSubmit}
+            className="cursor-not-allowed text-sm p-3 pl-5 pr-5 bg-slate-500 text-black font-semibold rounded-lg"
+          >
+            You have already rated {featureName}
+          </button>
+        )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

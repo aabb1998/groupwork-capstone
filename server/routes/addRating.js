@@ -1,30 +1,35 @@
 const router = require('express').Router();
-const { Features } = require('../models/features');
+const { Ratings } = require('../models/ratings');
 
-router.post('/:teamCode/features/:featureId', async (req, res) => {
-  console.log(req.body);
+router.put('/:teamCode/addrating/:featureId', async (req, res) => {
+  console.log(req.body.ratings);
   try {
-    const teamFeature = await Features.findOne({
-      teamCode: req.params.teamCode,
-    });
-    if (!teamFeature) {
-      return res.status.send({
-        message: 'No features found for this team.',
+    const teamRating = await Ratings.findOneAndUpdate(
+      {
+        featureId: req.params.featureId,
+      },
+      { $push: { ratings: req.body.ratings } }
+    );
+    if (teamRating) {
+      console.log(teamRating);
+
+      return res.status(200).send({
+        message: 'Team already exists.',
+        data: teamRating,
       });
     } else {
-      const completedTasks = await teamFeature.features.find((x) => x.id === 3);
-      let ratingFeature;
-      if (completedTasks) {
-        ratingFeature = completedTasks.cards.find(
-          (y) => y.featureId === parseInt(req.params.featureId)
-        );
-        return res.status(200).send({
-          message: 'Team features found',
-          ratingFeature,
-        });
-      }
+      await new Ratings({
+        featureId: req.body.featureId,
+        description: req.body.description,
+        ratings: req.body.ratings,
+        title: req.body.title,
+        teamCode: req.body.teamCode,
+      }).save();
+      console.log('team rating not found');
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
