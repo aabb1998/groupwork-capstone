@@ -20,6 +20,10 @@ const TeamBoard = ({ data, teamCode }) => {
     addFeature(e);
   };
 
+  const generateRandomId = () => {
+    return Math.floor(Math.random() * (1000000 - 1 + 1) + 1);
+  };
+
   const addFeature = async (featureList) => {
     console.log(featureList);
     try {
@@ -54,7 +58,7 @@ const TeamBoard = ({ data, teamCode }) => {
             id: new Date().getTime(),
             ratings: [],
             user: user.email,
-            featureId: 200001,
+            featureId: generateRandomId(),
             ...draftCard,
           })}
           onCardNew={(e) => handleNewCard(e)}

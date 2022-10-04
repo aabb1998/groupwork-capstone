@@ -21,9 +21,10 @@ router.put('/:teamCode/addrating/:featureId', async (req, res) => {
       await new Ratings({
         featureId: req.body.featureId,
         description: req.body.description,
-        ratings: req.body.ratings,
+        ratings: req.body.ratings[0],
         title: req.body.title,
         teamCode: req.body.teamCode,
+        user: req.body.email,
       }).save();
       console.log('team rating not found');
     }

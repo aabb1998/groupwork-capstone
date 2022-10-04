@@ -45,15 +45,6 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
     setRated(true);
   };
   const handleRatingSubmit = async () => {
-    // let newRatings = feature.ratings.push({
-    //   communicationRating: communication,
-    //   collaborationRating: collaboration,
-    //   functionalityRating: userFunction,
-    //   featureRating:
-    //     completeness + correctness + involvement + functionality / 4,
-    //   feedback: userFeedback,
-    //   email: user.email,
-    // });
     console.log(feature);
     if (feature?.ratings?.find((x) => x.email === user.email)) {
       console.log('You have already rated this feature!');
