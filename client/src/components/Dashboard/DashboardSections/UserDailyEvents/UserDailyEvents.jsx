@@ -8,6 +8,7 @@ const UserDailyEvents = () => {
   const [teamCodes, setTeamCodes] = useState();
   const [events, setEvents] = useState();
   const [hasEvents, setHasEvents] = useState(false);
+  const [todayEvents, setTodayEvents] = useState();
 
   useEffect(() => {
     if (user) {
@@ -45,17 +46,25 @@ const UserDailyEvents = () => {
   };
 
   const checkDates = (allEvents) => {
-    let eventDateStart = allEvents[4].start;
-    let eventDateEnd = allEvents[4].end;
-    let newStartDate = new Date(eventDateStart).toLocaleDateString();
-    let newEndDate = new Date(eventDateEnd).toLocaleDateString();
-    let todaysDate = new Date().toLocaleDateString();
-    if (todaysDate >= newStartDate && todaysDate <= newEndDate) {
-      console.log('FOund');
-    } else {
-      console.log('NBot found');
-    }
+    const todaysEvents = [];
+
+    const datesCompare = allEvents.map((event, index) => {
+      let eventDateStart = event.start;
+      let eventDateEnd = event.end;
+      let newStartDate = new Date(eventDateStart).toLocaleDateString();
+      let newEndDate = new Date(eventDateEnd).toLocaleDateString();
+      let todaysDate = new Date().toLocaleDateString();
+      if (todaysDate >= newStartDate && todaysDate <= newEndDate) {
+        todaysEvents.push(event);
+      }
+    });
+
+    setTodayEvents(todaysEvents);
   };
+
+  useEffect(() => {
+    console.log(todayEvents);
+  }, [todayEvents]);
 
   return (
     <div
@@ -71,8 +80,10 @@ const UserDailyEvents = () => {
       </div>
       <div className="events flex flex-row justify-between text-left content-center">
         <div className="all-events flex flex-row">
-          <CalendarEvent />
-          <CalendarEvent />
+          {todayEvents &&
+            todayEvents.map((event, index) => (
+              <CalendarEvent eventData={event} key={index} />
+            ))}
         </div>
         <div className="view-more text-center align-middle flex flex-col justify-center">
           <span>View more</span>
