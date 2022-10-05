@@ -6,6 +6,7 @@ const ratingsSchema = new mongoose.Schema({
   ratings: { type: Array, default: [] },
   title: { type: String, required: true },
   teamCode: { type: String, required: true },
+  userCreator: { type: String, required: true },
 });
 
 const Ratings = mongoose.model('ratings', ratingsSchema);

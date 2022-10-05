@@ -7,7 +7,6 @@ const DashboardNavbar = () => {
   const { user } = useSelector(selectUser);
   let navigate = useNavigate();
   useEffect(() => {
-    console.log(user);
   }, [user]);
 
   return (

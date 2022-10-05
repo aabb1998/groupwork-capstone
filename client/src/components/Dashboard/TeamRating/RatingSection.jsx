@@ -67,7 +67,7 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
         featureRating:
           (completeness + correctness + involvement + functionality) / 4,
         feedback: userFeedback,
-        email: user.email,
+        userCreator: user.email,
         featureId: feature.featureId,
         description: feature.description,
         title: feature.title,
@@ -79,6 +79,7 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
         `http://localhost:3000/api/addrating/${teamCode}/addrating/${feature.featureId}`,
         data
       );
+      setRated(true);
     }
   };
 

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Ratings } = require('../models/ratings');
 
 router.put('/:teamCode/addrating/:featureId', async (req, res) => {
-  console.log(req.body.ratings);
+  console.log(req.body);
   try {
     const teamRating = await Ratings.findOneAndUpdate(
       {
@@ -24,7 +24,7 @@ router.put('/:teamCode/addrating/:featureId', async (req, res) => {
         ratings: req.body.ratings[0],
         title: req.body.title,
         teamCode: req.body.teamCode,
-        user: req.body.email,
+        userCreator: req.body.userCreator,
       }).save();
       console.log('team rating not found');
     }
