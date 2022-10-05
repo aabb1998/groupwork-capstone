@@ -4,6 +4,8 @@ import { store } from "../../../redux/configureStore";
 import { selectUser } from "../../../redux/user";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 import axios from "axios";
 
 const AddCalendarEvent = ({ show, fetchEvents, allEvents }) => {
@@ -11,12 +13,22 @@ const AddCalendarEvent = ({ show, fetchEvents, allEvents }) => {
 	const [end, setEnd] = useState(new Date());
 	const [start, setStart] = useState(new Date());
 	const [showModal, setShowModal] = useState(false);
+	const [meetingType, setMeetingType] = useState();
+
+	const eventOptions = [
+		"Meeting",
+		"1on1",
+		"Review",
+		"Team Collaboration",
+		"Feature Review",
+	];
 
 	const [eventData, setEventData] = useState({
 		title: "",
 		start,
 		teamName: "",
 		end,
+		meetingType: "",
 	});
 
 	const handleChange = ({ currentTarget: input }) => {
@@ -126,6 +138,18 @@ const AddCalendarEvent = ({ show, fetchEvents, allEvents }) => {
 									onChange={(date: Date) => setEnd(date)}
 									className="border-2 rounded-lg"
 								/>
+							</div>
+							<div className="mb-5 w-72 flex flex-col justify-center content-center">
+								<span className="w-56 mb-5">Event Type:</span>
+								<Dropdown
+									options={eventOptions}
+									onChange={(e) =>
+										(eventData.meetingType = e.value)
+									}
+									// value={defaultOption}
+									placeholder="Select an option"
+								/>
+								;
 							</div>
 						</div>
 						{/*footer*/}

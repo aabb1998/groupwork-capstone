@@ -40,7 +40,7 @@ const DashboardLeftMenu = () => {
 							<div className="flex flex-row justify-between text-center">
 								<div className="icons">
 									<Link
-										className="hover:text-lightBlue mb-6 flex flex-row text-sm font-semibold text-white"
+										className="hover:text-lightBlue mb-6 flex flex-row text-sm font-semibold text-black"
 										key={title}
 										to="/dashboard"
 										onClick={() =>
@@ -54,7 +54,10 @@ const DashboardLeftMenu = () => {
 										<img
 											src={icon}
 											alt=""
-											className="mr-5 w-6 h-6"
+											style={{
+												color: "black",
+											}}
+											className="mr-5 w-6 h-6 hover:color-lightBlue"
 										/>
 
 										{title}

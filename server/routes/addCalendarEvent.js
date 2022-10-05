@@ -2,17 +2,16 @@ const router = require("express").Router();
 const { Calendar } = require("../models/calendar");
 
 router.post("/:teamCode", async (req, res) => {
+	console.log(req.body);
 	try {
 		const teamCalendar = await Calendar.findOne({
 			teamCode: req.params.teamCode,
 		});
 		if (!teamCalendar) {
-			return res
-				.status(401)
-				.send({
-					message:
-						"No team calendar exists for this team. Created a new calendar and added event.",
-				});
+			return res.status(401).send({
+				message:
+					"No team calendar exists for this team. Created a new calendar and added event.",
+			});
 		}
 
 		console.log(teamCalendar);
