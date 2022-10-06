@@ -15,6 +15,7 @@ const getCalendarEvents = require('./routes/getCalendarEvents');
 const getFeature = require('./routes/getFeature');
 const addRating = require('./routes/addRating');
 const addFeature = require('./routes/addFeature');
+const getRating = require('./routes/getRatings');
 
 // database connection
 connection();
@@ -35,6 +36,7 @@ app.use('/api/getCalendarEvents', getCalendarEvents);
 app.use('/api/getFeatures', getFeature);
 app.use('/api/addRating', addRating);
 app.use('/api/addFeature', addFeature);
+app.use('/api/getRatings', getRating);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
