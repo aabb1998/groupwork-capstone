@@ -10,15 +10,17 @@ import MailIcon from "../../../Assets/Dashboard/Mail_solid.png";
 import SwitchIcon from "../../../Assets/Dashboard/Switch_solid.png";
 import { selectDashboard, updateDashboard } from "../../../redux/counter";
 import { useSelector, useDispatch } from "react-redux";
+import OnlineFriends from "./OnlineFriends/OnlineFriends";
+import UploadFiles from "./UploadFiles/UploadFiles";
 
 const DashboardLeftMenu = () => {
 	const userDashboard = useSelector(selectDashboard);
 	const dispatch = useDispatch();
 
 	return (
-		<div className="mt-10 border-r-indigo-500">
+		<div className="mt-3 border-r-indigo-500">
 			<div className="flex flex-col">
-				<div className="flex flex-col text-center mb-10">
+				<div className="flex flex-col text-center">
 					{[
 						["Main Page", "/", FeedIcon, 0, 0],
 						["Teams", "/", DevicesIcon, 1, 0],
@@ -84,14 +86,13 @@ const DashboardLeftMenu = () => {
 					)}
 				</div>
 			</div>
+
 			<div className="menu__peers">
-				<div className="peers">
-					<div className="peer">Peter Taylor</div>
-					<div className="peer">Peter Taylor</div>
-					<div className="peer">Peter Taylor</div>
-				</div>
+				<OnlineFriends />
 			</div>
-			<div className="dragFile"></div>
+			<div className="dragFile">
+				<UploadFiles />
+			</div>
 			<div className="theme"></div>
 		</div>
 	);

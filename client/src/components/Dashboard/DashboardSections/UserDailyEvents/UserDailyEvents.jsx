@@ -87,7 +87,7 @@ const UserDailyEvents = () => {
 				<h4 className="text-lg font-semibold mb-5">Today's events</h4>
 			</div>
 			<div className="events flex flex-row justify-between text-left content-center">
-				<div className="all-events flex flex-row">
+				<div className="all-events flex flex-wrap ">
 					{todayEvents ? (
 						todayEvents.map((event, index) => (
 							<CalendarEvent eventData={event} key={index} />
@@ -99,7 +99,7 @@ const UserDailyEvents = () => {
 				<div className="view-more text-center align-middle flex flex-row justify-center items-center ">
 					<button
 						onClick={() => dispatch(updateDashboard(2))}
-						className="view-more text-center align-middle flex flex-row justify-center items-center bg-lightBlue p-2 rounded-xl text-white"
+						className="view-more text-center align-middle flex flex-row justify-center items-center bg-lightBlue p-2 rounded-xl text-white w-40"
 					>
 						<span className="mr-2 text-sm">View All</span>
 						<MdEventBusy />

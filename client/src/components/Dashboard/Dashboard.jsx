@@ -94,7 +94,7 @@ const Dashboard = () => {
 				<DashboardNavbar />
 			</div>
 			<div className="flex flex-row ">
-				<div className="flex flex-col w-96 h-screen pl-20 rounded-r-2xl">
+				<div className="flex flex-col w-96 h-screen pl-10 rounded-r-2xl">
 					<DashboardLeftMenu />
 				</div>
 				<div className="w-full ml-10 mr-5">
