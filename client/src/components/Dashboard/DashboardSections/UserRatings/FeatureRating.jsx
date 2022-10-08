@@ -22,7 +22,11 @@ const featureRating = ({ ratingData }) => {
         }}
         className="header"
       >
-        <h1>{ratingData.title}</h1>
+        <div className="">
+          <h1>{ratingData.title}</h1>
+          <span>Feature Description: {ratingData.description}</span>
+        </div>
+
         <span>{ratingData.ratings.length}</span>
       </div>
       <div className="rating-details"></div>

@@ -110,6 +110,17 @@ const TeamRating = ({ team }) => {
             <AiFillCloseCircle size={32} />
           </button>
         </div>
+        <div
+          className=""
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <h1>Feature Name</h1>
+          <h1>Feature Description</h1>
+          <h1>Ratings</h1>
+        </div>
         <div>
           {hasRatings && ratings ? (
             ratings.map((rating, index) => (
