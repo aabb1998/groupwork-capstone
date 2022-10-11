@@ -92,19 +92,46 @@ const ProjectProgressBar = ({ startDate, endDate, sprints }) => {
 						</div>
 					))}
 			</div>
-			<ProgressBar
-				completed={progress}
-				className="wrapper"
-				barContainerClassName="container"
-				labelClassName="label"
-				maxCompleted={100}
-				animateOnRender={true}
-			/>
+			{/* {progress <= 100 || progress >= 0 ? (
+				<ProgressBar
+					completed={progress}
+					className="wrapper"
+					barContainerClassName="container"
+					labelClassName="label"
+					maxCompleted={100}
+					animateOnRender={true}
+				/>
+			) : (
+				<span>Project Completed</span>
+			)}
+
 			<ProjectReview
 				nextReview={nextReview}
 				sprintCount={sprintCount}
 				sprintDates={sprintDates}
-			/>
+			/> */}
+			<div
+				className=""
+				style={{
+					fontWeight: "bold",
+					marginTop: "10px",
+					textAlign: "center",
+					alignContent: "center",
+				}}
+			>
+				{progress > 100 || progress < 0 ? (
+					<span>Project has been completed</span>
+				) : (
+					<ProgressBar
+						completed={progress}
+						className="wrapper"
+						barContainerClassName="container"
+						labelClassName="label"
+						maxCompleted={100}
+						animateOnRender={true}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };
