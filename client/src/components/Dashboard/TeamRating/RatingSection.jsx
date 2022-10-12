@@ -45,7 +45,6 @@ const RatingSection = ({ feature, featureName, teamCode }) => {
 		setRated(true);
 	};
 	const handleRatingSubmit = async () => {
-		console.log(feature);
 		if (feature?.ratings?.find((x) => x.email === user.email)) {
 			console.log("You have already rated this feature!");
 			ratingLimit();

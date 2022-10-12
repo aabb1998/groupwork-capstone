@@ -7,7 +7,7 @@ const FeatureRating = ({ feature, teamCode }) => {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
-		console.log(feature);
+		// console.log(feature);
 	}, [feature]);
 
 	return (
@@ -23,11 +23,15 @@ const FeatureRating = ({ feature, teamCode }) => {
 			</div>
 			{open && (
 				<div className="">
-					<RatingSection
-						feature={feature}
-						featureName={feature.title}
-						teamCode={teamCode}
-					/>
+					{feature ? (
+						<RatingSection
+							feature={feature}
+							featureName={feature.title}
+							teamCode={teamCode}
+						/>
+					) : (
+						<span>You have no feature to rate for this team.</span>
+					)}
 				</div>
 			)}
 		</div>
